@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 def nombre_existe(usuarios, nombre):
     for usuario in usuarios:
         if usuario["nombre"] == nombre:
@@ -38,3 +40,4 @@ def menu_usuarios(usuarios):
     for usuario in usuarios:
         print(f"- {usuario['nombre']} ({usuario['email']})")
 
+>>>>>>> main
