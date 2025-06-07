@@ -1,26 +1,21 @@
-from gestiones import (
-    registrar_usuario,
-    iniciar_sesion,
-    menu_dispositivos,
-    menu_usuarios,
-    menu_modo_ahorro
-)
+from gestiones_usuarios import (registrar_usuario, menu_usuarios, datos_personales, cambiar_rol)
+from gestiones_inicio import iniciar_sesion
+from gestiones_menus_dispositivos import menu_dispositivos
+from gestiones_automatizaciones import automatizaciones_usuario_estandar, automatizaciones_admin
 
-# Estructuras de datos principales
 usuarios = []
 dispositivos = []
 estados_anteriores = {}
 modo_ahorro_activo = False
-usuario_logueado = None
+
 
 def menu_principal():
-    global usuario_logueado, modo_ahorro_activo
-    print("🔷 Bienvenido a SmartHome Solutions 🔷")
+    usuario_actual = None
 
     while True:
-        print("\n=== MENÚ PRINCIPAL ===")
+        print("\n--- Menú Principal ---")
         print("1. Registrarse")
-        print("2. Iniciar Sesión")
+        print("2. Iniciar sesión")
         print("3. Salir")
         opcion = input("Seleccione una opción: ")
 
@@ -28,64 +23,63 @@ def menu_principal():
             case "1":
                 registrar_usuario(usuarios)
             case "2":
-                usuario_logueado = iniciar_sesion(usuarios)
-                if usuario_logueado:
-                    menu_usuario_logueado()
+                usuario_actual = iniciar_sesion(usuarios)
+                if usuario_actual:
+                    menu_usuario_actual(usuario_actual)
             case "3":
-                print("¡Hasta luego!")
+                print("👋 ¡Hasta luego!")
                 break
             case _:
                 print("❌ Opción inválida.")
 
-def menu_usuario_logueado():
+
+def menu_usuario_actual(usuario):
     global modo_ahorro_activo
     while True:
-        print(f"\n=== MENÚ USUARIO ({usuario_logueado['nombre']}) ===")
-        print("1. Gestionar Dispositivos")
-        print("2. Automatizaciones")
-        print("3. Gestionar Usuarios")
-        print("4. Cerrar Sesión")
+        print(f"\n--- Menú de {usuario['nombre']} ---")
+        print("1. Ver mis datos")
+        print("2. Gestión de dispositivos")
+        print("3. Automatizaciones")
+        if usuario["rol"] == "admin":
+            print("4. Ver usuarios registrados")
+            print("5. Cambiar rol de un usuario")
+            print("6. Cerrar sesión")
+        else:
+            print("4. Cerrar sesión")
+
         opcion = input("Seleccione una opción: ")
 
-        match opcion:
-            case "1":
-                menu_dispositivos(dispositivos)
-            case "2":
-                menu_automatizaciones()
-            case "3":
-                menu_usuarios(usuarios)
-            case "4":
-                print("🔒 Sesión cerrada.")
-                break
-            case _:
-                print("❌ Opción inválida.")
+        if usuario["rol"] == "admin":
+            match opcion:
+                case "1":
+                    datos_personales(usuario)
+                case "2":
+                    menu_dispositivos(dispositivos)
+                case "3":
+                    modo_ahorro_activo = automatizaciones_admin(dispositivos, usuario, estados_anteriores, modo_ahorro_activo)
+                case "4":
+                    menu_usuarios(usuario, usuarios)
+                case "5":
+                    cambiar_rol(usuario, usuarios)
+                case "6":
+                    print("🔒 Sesión cerrada.")
+                    break
+                case _:
+                    print("❌ Opción inválida.")
+        else:
+            match opcion:
+                case "1":
+                    datos_personales(usuario)
+                case "2":
+                    menu_dispositivos(dispositivos)
+                case "3":
+                    modo_ahorro_activo = automatizaciones_usuario_estandar(dispositivos, estados_anteriores, modo_ahorro_activo)
+                case "4":
+                    print("🔒 Sesión cerrada.")
+                    break
+                case _:
+                    print("❌ Opción inválida.")
 
-def menu_automatizaciones():
-    global modo_ahorro_activo
-    while True:
-        print("\n=== AUTOMATIZACIONES ===")
-        print("1. Activar Modo Ahorro de Energía")
-        print("2. Encender cafetera a las 7:00 am (demo)")
-        print("3. Volver")
-        opcion = input("Seleccione una opción: ")
-
-        match opcion:
-            case "1":
-                modo_ahorro_activo = menu_modo_ahorro(dispositivos, estados_anteriores, modo_ahorro_activo)
-            case "2":
-                programar_cafetera()
-            case "3":
-                break
-            case _:
-                print("❌ Opción inválida.")
-
-def programar_cafetera():
-    for dispositivo in dispositivos:
-        if dispositivo["nombre"].lower() == "cafetera":
-            dispositivo["estado"] = "encendido"
-            print("☕ Cafetera programada y encendida a las 7:00 am (simulado).")
-            return
-    print("⚠️ No se encontró una cafetera registrada.")
 
 if __name__ == "__main__":
     menu_principal()
