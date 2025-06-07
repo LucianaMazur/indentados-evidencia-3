@@ -39,29 +39,29 @@ def menu_dispositivos(dispositivos):
         print("\n--- Gestión de Dispositivos ---")
         print("1. Agregar dispositivo")
         print("2. Listar dispositivos")
-        print("3. Cambiar estado")
+        print("3. Cambiar estado de un dispositivo")
         print("4. Volver")
-        opcion = input("Opción: ")
+        opcion = input("Seleccione una opción: ")
 
         match opcion:
             case "1":
                 nombre = input("Nombre del dispositivo: ")
                 es_esencial = input("¿Es esencial? (s/n): ").lower() == "s"
-                dispositivos.append({"nombre": nombre, "estado": "apagado", "esencial": es_esencial})
+                nuevo = {"nombre": nombre, "estado": "apagado", "esencial": es_esencial}
+                dispositivos.append(nuevo)
                 print("✅ Dispositivo agregado.")
             case "2":
+                if not dispositivos:
+                    print("⚠️ No hay dispositivos registrados.")
                 for d in dispositivos:
-                    print(f"- {d['nombre']} ({'esencial' if d['esencial'] else 'no esencial'}) - {d['estado']}")
+                    print(f"- {d['nombre']} ({'esencial' if d['esencial'] else 'no esencial'}) - Estado: {d['estado']}")
             case "3":
                 nombre = input("Nombre del dispositivo: ")
                 for d in dispositivos:
                     if d["nombre"].lower() == nombre.lower():
-                        nuevo_estado = input("Nuevo estado (encendido/apagado): ").lower()
-                        if nuevo_estado in ["encendido", "apagado"]:
-                            d["estado"] = nuevo_estado
-                            print(f"🔄 Estado de {d['nombre']} actualizado.")
-                        else:
-                            print("⚠️ Estado inválido.")
+                        nuevo_estado = input("Nuevo estado (encendido/apagado): ")
+                        d["estado"] = nuevo_estado
+                        print(f"🔄 Estado de {d['nombre']} actualizado.")
                         break
                 else:
                     print("⚠️ Dispositivo no encontrado.")
