@@ -95,7 +95,7 @@ def cambiar_rol(usuario_logueado, usuarios):
     modificar_rol_usuario(usuarios, usuario_logueado)
 
 
-def menu_usuarios(usuario, usuarios)
+def menu_usuarios(usuario, usuarios):
     menu_gestion_usuarios(usuarios, usuario)
 
 
