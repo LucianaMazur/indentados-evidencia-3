@@ -1,10 +1,6 @@
-from gestiones import (
-    registrar_usuario,
-    iniciar_sesion,
-    menu_dispositivos,
-    menu_usuarios,
-    menu_modo_ahorro
-)
+from gestiones_menus_dispositivos import (menu_dispositivos,menu_modo_ahorro)
+from gestiones_usuarios import (registrar_usuario,menu_usuarios)
+from gestiones_inicio import (iniciar_sesion)
 
 # Estructuras de datos principales
 usuarios = []
@@ -26,8 +22,11 @@ def menu_principal():
 
         match opcion:
             case "1":
+                print("\n--- Registro de Usuario ---")
                 registrar_usuario(usuarios)
+                print("se agrego sastifactoriamente")
             case "2":
+                print("\n--- Iniciar Sesión ---")
                 usuario_logueado = iniciar_sesion(usuarios)
                 if usuario_logueado:
                     menu_usuario_logueado()

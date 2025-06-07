@@ -1,39 +1,3 @@
-
-def registrar_usuario(usuarios):
-    print("\n--- Registro de Usuario ---")
-    nombre = input("Nombre: ")
-    email = input("Email: ")
-    contraseña = input("Contraseña: ")
-
-    for usuario in usuarios:
-        if usuario["email"] == email:
-            print("⚠️ Ya existe un usuario con ese email.")
-            return
-
-    nuevo_usuario = {
-        "nombre": nombre,
-        "email": email,
-        "contraseña": contraseña,
-    }
-
-    usuarios.append(nuevo_usuario)
-    print(f"✅ Usuario {nombre} registrado con éxito.")
-
-
-def iniciar_sesion(usuarios):
-    print("\n--- Iniciar Sesión ---")
-    email = input("Email: ")
-    contraseña = input("Contraseña: ")
-
-    for usuario in usuarios:
-        if usuario["email"] == email and usuario["contraseña"] == contraseña:
-            print(f"🔓 Bienvenido/a, {usuario['nombre']}!")
-            return usuario
-
-    print("❌ Email o contraseña incorrectos.")
-    return None
-
-
 def menu_dispositivos(dispositivos):
     while True:
         print("\n--- Gestión de Dispositivos ---")
@@ -69,15 +33,6 @@ def menu_dispositivos(dispositivos):
                 break
             case _:
                 print("❌ Opción inválida.")
-
-
-def menu_usuarios(usuarios):
-    print("\n--- Lista de Usuarios Registrados ---")
-    if not usuarios:
-        print("⚠️ No hay usuarios registrados.")
-    for usuario in usuarios:
-        print(f"- {usuario['nombre']} ({usuario['email']})")
-
 
 def menu_modo_ahorro(dispositivos, estados_anteriores, modo_ahorro_activo):
     if not modo_ahorro_activo:
