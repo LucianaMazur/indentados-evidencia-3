@@ -90,6 +90,43 @@ def datos_personales(usuario):
         if clave != "dispositivos":
             print(f"{clave.capitalize()}: {valor}")
 
+def resumen_sistema(usuarios, dispositivos):
+    print("Resumen del Sistema:")
+
+    total_usuarios = len(usuarios)
+
+    admins = 0
+
+    for u in usuarios:
+        if u["rol"] == "admin":
+            admins += 1
+
+    estandar = total_usuarios - admins
+
+    print(f"Usuarios registrados: {total_usuarios}")
+    print(f"Admin: {admins}")
+    print(f"Estandar: {estandar}")
+
+    total_dispositivos = len(dispositivos)
+
+    encendidos = 0
+    for d in dispositivos:
+        if d["estado"] == "encendido":
+            encendidos += 1
+
+
+    esenciales = 0
+    for d in dispositivos:
+        if d.get ("esencial", False) == True:
+            esenciales += 1
+
+    no_esenciales = total_dispositivos - esenciales
+
+    print(f"Dispositivos registrados: {total_dispositivos}")
+    print(f"Encendidos: {encendidos}")
+    print(f"Esenciales: {esenciales}")
+    print(f"No esenciales: {no_esenciales}")
+
 
 def cambiar_rol(usuario_logueado, usuarios):
     modificar_rol_usuario(usuarios, usuario_logueado)

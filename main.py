@@ -1,4 +1,4 @@
-from gestiones_usuarios import (registrar_usuario, menu_usuarios, datos_personales, cambiar_rol)
+from gestiones_usuarios import (registrar_usuario, menu_usuarios, datos_personales, cambiar_rol, resumen_sistema)
 from gestiones_inicio import iniciar_sesion
 from gestiones_menus_dispositivos import menu_dispositivos
 from gestiones_automatizaciones import automatizaciones_usuario_estandar, automatizaciones_admin
@@ -42,8 +42,9 @@ def menu_usuario_actual(usuario):
         print("3. Automatizaciones")
         if usuario["rol"] == "admin":
             print("4. Ver usuarios registrados")
-            print("5. Cambiar rol de un usuario")
-            print("6. Cerrar sesión")
+            print("5. Ver resumen del sistema")
+            print("6. Cambiar rol de un usuario")
+            print("7. Cerrar sesión")
         else:
             print("4. Cerrar sesión")
 
@@ -60,8 +61,10 @@ def menu_usuario_actual(usuario):
                 case "4":
                     menu_usuarios(usuario, usuarios)
                 case "5":
-                    cambiar_rol(usuario, usuarios)
+                    resumen_sistema(usuarios, dispositivos)
                 case "6":
+                    cambiar_rol(usuario, usuarios)
+                case "7":
                     print("🔒 Sesión cerrada.")
                     break
                 case _:
