@@ -67,4 +67,3 @@ def automatizaciones_admin(dispositivos, usuario, estados_anteriores, modo_ahorr
                 return modo_ahorro_activo
             case _:
                 print("❌ Opción inválida.")
-
