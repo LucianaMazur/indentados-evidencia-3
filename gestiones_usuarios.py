@@ -25,10 +25,12 @@ def modificar_rol_usuario(usuarios, usuario_logueado):
         print("⚠️ No puedes modificar tu propio rol.")
         return
 
-    nuevo_rol = input("Ingrese el nuevo rol (admin/estandar): ").strip().lower()
-    if nuevo_rol not in ["admin", "estandar"]:
-        print("❌ Rol inválido. Solo 'admin' o 'estandar' son válidos.")
-        return
+    while True:
+        nuevo_rol = input("Ingrese el nuevo rol (admin/estandar): ").strip().lower()
+        if nuevo_rol in ["admin", "estandar"]:
+            break
+        print("❌ Rol inválido. Intente nuevamente")
+
 
     usuario_encontrado["rol"] = nuevo_rol
     print(f"✅ Rol de {usuario_encontrado['nombre']} modificado a '{nuevo_rol}'.")
@@ -89,6 +91,27 @@ def datos_personales(usuario):
     for clave, valor in usuario.items():
         if clave != "dispositivos":
             print(f"{clave.capitalize()}: {valor}")
+
+def resumen_sistema(usuarios, dispositivos):
+    print("» Resumen del Sistema «")
+
+    total_usuarios = len(usuarios)
+    admins = sum(1 for u in usuarios if u ["rol"] == "admin")
+    estandar = total_usuarios - admins
+
+    print(f"Usuarios registrados: {total_usuarios}")
+    print(f"Admin: {admins}")
+    print(f"Estandar: {estandar}")
+
+    total_dispositivos = len(dispositivos)
+    encendidos = sum(1 for d in dispositivos if d["estado"] == "encendido")
+    esenciales = sum(1 for d in dispositivos if d.get("esencial", False) == True)
+    no_esenciales = total_dispositivos - esenciales
+
+    print(f"Dispositivos registrados: {total_dispositivos}")
+    print(f"Encendidos: {encendidos}")
+    print(f"Esenciales: {esenciales}")
+    print(f"No esenciales: {no_esenciales}")
 
 
 def cambiar_rol(usuario_logueado, usuarios):
