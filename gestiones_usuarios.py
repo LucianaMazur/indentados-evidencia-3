@@ -25,10 +25,12 @@ def modificar_rol_usuario(usuarios, usuario_logueado):
         print("⚠️ No puedes modificar tu propio rol.")
         return
 
-    nuevo_rol = input("Ingrese el nuevo rol (admin/estandar): ").strip().lower()
-    if nuevo_rol not in ["admin", "estandar"]:
-        print("❌ Rol inválido. Solo 'admin' o 'estandar' son válidos.")
-        return
+    while True:
+        nuevo_rol = input("Ingrese el nuevo rol (admin/estandar): ").strip().lower()
+        if nuevo_rol in ["admin", "estandar"]:
+            break
+        print("❌ Rol inválido. Intente nuevamente")
+
 
     usuario_encontrado["rol"] = nuevo_rol
     print(f"✅ Rol de {usuario_encontrado['nombre']} modificado a '{nuevo_rol}'.")
