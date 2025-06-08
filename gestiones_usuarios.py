@@ -93,16 +93,10 @@ def datos_personales(usuario):
             print(f"{clave.capitalize()}: {valor}")
 
 def resumen_sistema(usuarios, dispositivos):
-    print("Resumen del Sistema:")
+    print("» Resumen del Sistema «")
 
     total_usuarios = len(usuarios)
-
-    admins = 0
-
-    for u in usuarios:
-        if u["rol"] == "admin":
-            admins += 1
-
+    admins = sum(1 for u in usuarios if u ["rol"] == "admin")
     estandar = total_usuarios - admins
 
     print(f"Usuarios registrados: {total_usuarios}")
@@ -110,18 +104,8 @@ def resumen_sistema(usuarios, dispositivos):
     print(f"Estandar: {estandar}")
 
     total_dispositivos = len(dispositivos)
-
-    encendidos = 0
-    for d in dispositivos:
-        if d["estado"] == "encendido":
-            encendidos += 1
-
-
-    esenciales = 0
-    for d in dispositivos:
-        if d.get ("esencial", False) == True:
-            esenciales += 1
-
+    encendidos = sum(1 for d in dispositivos if d["estado"] == "encendido")
+    esenciales = sum(1 for d in dispositivos if d.get("esencial", False) == True)
     no_esenciales = total_dispositivos - esenciales
 
     print(f"Dispositivos registrados: {total_dispositivos}")
