@@ -1,4 +1,3 @@
-
 def iniciar_sesion(usuarios):
     if not usuarios:
         print("Aun no te registraste")
@@ -13,6 +12,3 @@ def iniciar_sesion(usuarios):
 
     print("❌ Email o contraseña incorrectos.")
     return None
-
-
-
