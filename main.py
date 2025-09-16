@@ -1,102 +1,113 @@
-from gestiones_usuarios import (
-    registrar_usuario, menu_usuarios, datos_personales, cambiar_rol, resumen_sistema)
-from gestiones_inicio import iniciar_sesion
-from gestiones_menus_dispositivos import menu_dispositivos
-from gestiones_automatizaciones import automatizaciones_usuario_estandar, automatizaciones_admin
+from gestiones_usuarios import registrar_usuario, agregar_usuario, inicio_sesion, modificar_rol
+from gestiones_dispositivos import registrar_dispositivo, agregar_dispositivo, listar_dispositivos, editar_dispositivo, eliminar_dispositivo
+from gestiones_automatizaciones import crear_automatizacion, activar_automatizacion, consultar_automatizacion
 
 usuarios = []
 dispositivos = []
-estados_anteriores = {}
-modo_ahorro_activo = False
-
+automatizacion = crear_automatizacion("cafe_a_las_20", "cafetera", "20:00")
 
 def menu_principal():
-    usuario_actual = None
+    print("----------------------------")
+    print("Bienvenidos a la casa inteligente")
+    print("----------------------------")
+    opcion = int(input("1: Registrar usuario\n2: Iniciar sesión\n3: Salir\n"))
+    return opcion
 
+def menu_admin(usuario_actual):
     while True:
-        print("\n" + "="*40)
-        print("🌟  MENÚ PRINCIPAL - SMART HOME SOLUTIONS  🌟")
-        print("="*40)
-        print("| {:<2} | {:<30} |".format("1", "Registrarse"))
-        print("| {:<2} | {:<30} |".format("2", "Iniciar sesión"))
-        print("| {:<2} | {:<30} |".format("3", "Salir"))
-        print("="*40)
+        print("1) Consultar automatizaciones activas\n2) Gestionar dispositivos\n3) Modificar rol de usuario\n4) Cerrar sesión")
+        op_admin = int(input())
+        if op_admin == 1:
+            consultar_automatizacion(automatizacion)
+        elif op_admin == 2:
+            menu_dispositivos()
+        elif op_admin == 3:
+            mail_mod = input("Mail del usuario a modificar: ")
+            rol_nuevo = input("Nuevo rol (administrador/estandar): ")
+            if modificar_rol(usuarios, mail_mod, rol_nuevo):
+                print("Rol modificado con éxito!")
+            else:
+                print("Usuario no encontrado")
+        elif op_admin == 4:
+            break
 
-        opcion = input("👉 Seleccione una opción: ")
-
-        match opcion:
-            case "1":
-                registrar_usuario(usuarios)
-            case "2":
-                usuario_actual = iniciar_sesion(usuarios)
-                if usuario_actual:
-                    menu_usuario_actual(usuario_actual)
-            case "3":
-                print("\n👋 ¡Hasta luego! Gracias por usar Smart Home Solutions.")
-                break
-            case _:
-                print("❌ Opción inválida. Por favor intente nuevamente.")
-
-
-def menu_usuario_actual(usuario):
-    global modo_ahorro_activo
+def menu_dispositivos():
     while True:
-        print("\n" + "="*50)
-        print("|{:^48}|".format(
-            f" MENÚ DE {usuario['nombre'].upper()} ({usuario['rol'].upper()}) "))
-        print("="*50)
-        print("| {:<2} | {:<43} |".format("1", "Ver mis datos"))
-        print("| {:<2} | {:<43} |".format("2", "Gestión de dispositivos"))
-        print("| {:<2} | {:<43} |".format("3", "Automatizaciones"))
+        print("1) Agregar\n2) Listar\n3) Editar\n4) Eliminar\n5) Volver")
+        op_disp = int(input())
+        if op_disp == 1:
+            id_disp = input("ID: ")
+            nombre_disp = input("Nombre: ")
+            tipo_disp = input("Tipo: ")
+            estado_disp = input("Estado (prendido/apagado): ")
+            es_ess = input("Esencial (si/no): ")
+            disp = registrar_dispositivo(id_disp, nombre_disp, tipo_disp, estado_disp, es_ess)
+            agregar_dispositivo(dispositivos, disp)
+        elif op_disp == 2:
+            listar_dispositivos(dispositivos)
+        elif op_disp == 3:
+            nombre_edit = input("Nombre del dispositivo a editar: ")
+            campo = input("Campo a modificar (estado/es_esencial): ")
+            valor = input("Nuevo valor: ")
+            if editar_dispositivo(dispositivos, nombre_edit, campo, valor):
+                print("Dispositivo editado con éxito")
+            else:
+                print("Dispositivo no encontrado")
+        elif op_disp == 4:
+            nombre_elim = input("Nombre del dispositivo a eliminar: ")
+            if eliminar_dispositivo(dispositivos, nombre_elim):
+                print("Dispositivo eliminado")
+            else:
+                print("Dispositivo no encontrado")
+        elif op_disp == 5:
+            break
 
-        if usuario["rol"] == "admin":
-            print("| {:<2} | {:<43} |".format("4", "Ver usuarios registrados"))
-            print("| {:<2} | {:<43} |".format("5", "Ver resumen del sistema"))
-            print("| {:<2} | {:<43} |".format(
-                "6", "Cambiar rol de un usuario"))
-            print("| {:<2} | {:<43} |".format("7", "Cerrar sesión"))
+def menu_usuario(usuario_actual):
+    while True:
+        print("1) Consultar datos personales\n2) Consultar dispositivos\n3) Activar automatización\n4) Cerrar sesión")
+        op_user = int(input())
+        if op_user == 1:
+            print(f"ID: {usuario_actual['id']}\nNombre: {usuario_actual['nombre']}\nMail: {usuario_actual['mail']}\nRol: {usuario_actual['rol']}")
+        elif op_user == 2:
+            listar_dispositivos(dispositivos)
+        elif op_user == 3:
+            activar_automatizacion(automatizacion)
+        elif op_user == 4:
+            break
+
+# Crear primer administrador si no hay usuarios
+if len(usuarios) == 0:
+    print("Registrar el primer usuario (será administrador)")
+    id = int(input("ID: "))
+    nombre = input("Nombre: ")
+    mail = input("Mail: ")
+    contraseña = input("Contraseña: ")
+    usuario_admin = registrar_usuario(id, nombre, mail, contraseña, rol="administrador")
+    agregar_usuario(usuarios, usuario_admin)
+    print("Usuario administrador creado con éxito!\n")
+
+while True:
+    opcion = menu_principal()
+    if opcion == 1:
+        id = int(input("ID: "))
+        nombre = input("Nombre: ")
+        mail = input("Mail: ")
+        contraseña = input("Contraseña: ")
+        usuario_creado = registrar_usuario(id, nombre, mail, contraseña)
+        agregar_usuario(usuarios, usuario_creado)
+        print("Usuario estándar creado con éxito!\n")
+    elif opcion == 2:
+        mail = input("Mail: ")
+        contraseña = input("Contraseña: ")
+        usuario_actual = inicio_sesion(usuarios, mail, contraseña)
+        if usuario_actual:
+            print(f"Bienvenido {usuario_actual['nombre']} ({usuario_actual['rol']})")
+            if usuario_actual["rol"] == "administrador":
+                menu_admin(usuario_actual)
+            else:
+                menu_usuario(usuario_actual)
         else:
-            print("| {:<2} | {:<43} |".format("4", "Cerrar sesión"))
-
-        print("="*50)
-
-        opcion = input("👉 Seleccione una opción: ")
-
-        if usuario["rol"] == "admin":
-            match opcion:
-                case "1":
-                    datos_personales(usuario)
-                case "2":
-                    menu_dispositivos(dispositivos)
-                case "3":
-                    modo_ahorro_activo = automatizaciones_admin(
-                        dispositivos, usuario, estados_anteriores, modo_ahorro_activo)
-                case "4":
-                    menu_usuarios(usuario, usuarios)
-                case "5":
-                    resumen_sistema(usuarios, dispositivos)
-                case "6":
-                    cambiar_rol(usuario, usuarios)
-                case "7":
-                    print("🔒 Sesión cerrada.")
-                    break
-                case _:
-                    print("❌ Opción inválida.")
-        else:
-            match opcion:
-                case "1":
-                    datos_personales(usuario)
-                case "2":
-                    menu_dispositivos(dispositivos)
-                case "3":
-                    modo_ahorro_activo = automatizaciones_usuario_estandar(
-                        dispositivos, estados_anteriores, modo_ahorro_activo)
-                case "4":
-                    print("🔒 Sesión cerrada.")
-                    break
-                case _:
-                    print("❌ Opción inválida.")
-
-
-if __name__ == "__main__":
-    menu_principal()
+            print("Usuario o contraseña incorrectos\n")
+    elif opcion == 3:
+        print("Gracias por la visita, que tengas un lindo día!!")
+        break
