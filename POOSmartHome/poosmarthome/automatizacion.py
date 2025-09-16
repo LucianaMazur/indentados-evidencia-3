@@ -17,4 +17,4 @@ class Automatizacion:
         return {"auto_id": self.auto_id, "ejecutada": True}
 
     def __repr__(self):
-        return f"Automatizacion({self.auto_id}, {self.nomb
+        return f"Automatizacion({self.auto_id}, {self.nombre}"
