@@ -10,7 +10,7 @@ Lucas Matías Garis – D.N.I: 28.598.726
 
 Luciana del Milagro Mazur – D.N.I: 38.755.361
 
-Micaela Estefanía Bustos – D.N.I: 40.295.337
+Micaela Estefanía Bustos Prelato– D.N.I: 40.295.337
 
 
 # Proyecto SQL - Base de datos "domotica_prueba"
