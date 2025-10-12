@@ -1,4 +1,4 @@
-from poosmarthome.dispositivo import Dispositivo
+from poosmarthome.Dispositivo import Dispositivo
 from poosmarthome.registro_actividad import RegistroActividad
 
 def test_agregar_registro():
