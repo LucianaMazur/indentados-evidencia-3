@@ -1,23 +1,29 @@
 from abc import ABC, abstractmethod
 
 class IAutomatizacionDAO(ABC):
-
+    # Interfaz para AutomatizacionDAO
+    
     @abstractmethod
-    def crear(self, automatizacion):
+    def create(self, automatizacion):
+        # Crear nueva automatización
         pass
-
+    
     @abstractmethod
-    def obtener_todas(self):
+    def get_by_id(self, _id):
+        # Obtener automatización por ID
         pass
-
+    
     @abstractmethod
-    def obtener_por_id(self, id_auto):
+    def update(self, automatizacion):
+        # Actualizar automatización existente
         pass
-
+    
     @abstractmethod
-    def actualizar(self, automatizacion):
+    def delete(self, _id):
+        # Eliminar automatización por ID
         pass
-
+    
     @abstractmethod
-    def eliminar(self, id_auto):
+    def list_all(self):
+        # Listar todas las automatizaciones
         pass
