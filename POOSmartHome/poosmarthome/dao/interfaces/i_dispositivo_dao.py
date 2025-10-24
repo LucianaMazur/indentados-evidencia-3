@@ -1,25 +1,29 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
-from poosmarthome.dominio.dispositivo import Dispositivo
 
 class IDispositivoDAO(ABC):
+    # Interfaz para DispositivoDAO
+    
     @abstractmethod
-    def create(self, dispositivo: Dispositivo) -> Dispositivo:
+    def create(self, dispositivo):
+        # Crear nuevo dispositivo
         pass
-
+    
     @abstractmethod
-    def get_by_id(self, _id: int) -> Optional[Dispositivo]:
+    def get_by_id(self, _id):
+        # Obtener dispositivo por ID
         pass
-
+    
     @abstractmethod
-    def update(self, dispositivo: Dispositivo) -> Dispositivo:
+    def update(self, dispositivo):
+        # Actualizar dispositivo existente
         pass
-
+    
     @abstractmethod
-    def delete(self, _id: int) -> bool:
+    def delete(self, _id):
+        # Eliminar dispositivo por ID
         pass
-
+    
     @abstractmethod
-    def list_all(self) -> List[Dispositivo]:
+    def list_all(self):
+        # Listar todos los dispositivos
         pass
-
