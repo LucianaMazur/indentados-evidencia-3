@@ -13,18 +13,13 @@ except Exception:
 dao = DispositivoDAO()
 
 def registrar_dispositivo(nombre: str, tipo: str) -> Dispositivo:
-    """
-    Crea y guarda un Dispositivo con los campos dados, y devuelve la entidad creada.
-    """
+   
     d = Dispositivo(id=0, nombre=nombre, tipo=tipo)
     created = dao.create(d)
     return created
 
 def agregar_dispositivo() -> Optional[Dispositivo]:
-    """
-    Interfaz mínima para solicitar datos por consola y crear un dispositivo.
-    Devuelve el Dispositivo creado o None si falla.
-    """
+
     try:
         nombre = input("Nombre dispositivo: ")
         tipo = input("Tipo dispositivo: ")
@@ -36,9 +31,7 @@ def agregar_dispositivo() -> Optional[Dispositivo]:
         return None
 
 def listar_dispositivos(print_output: bool = True) -> List[Dispositivo]:
-    """
-    Devuelve la lista de dispositivos. Si print_output es True imprime en consola.
-    """
+  
     devices = dao.list_all()
     if print_output:
         if not devices:
@@ -48,10 +41,7 @@ def listar_dispositivos(print_output: bool = True) -> List[Dispositivo]:
     return devices
 
 def editar_dispositivo(_id: Optional[int] = None) -> Optional[Dispositivo]:
-    """
-    Edita un dispositivo. Si _id es None, solicita por consola.
-    Devuelve el dispositivo actualizado o None si no existe.
-    """
+ 
     try:
         if _id is None:
             raw = input("ID dispositivo a editar: ")
@@ -75,10 +65,7 @@ def editar_dispositivo(_id: Optional[int] = None) -> Optional[Dispositivo]:
         return None
 
 def eliminar_dispositivo(_id: Optional[int] = None) -> bool:
-    """
-    Elimina un dispositivo por id. Si _id es None, solicita por consola.
-    Devuelve True si se eliminó, False en otro caso.
-    """
+
     try:
         if _id is None:
             raw = input("ID dispositivo a eliminar: ")

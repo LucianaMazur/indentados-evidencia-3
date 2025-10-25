@@ -1,3 +1,4 @@
+from typing import Optional, List
 
 try:
     from poosmarthome.dao.usuario_dao import UsuarioDAO
