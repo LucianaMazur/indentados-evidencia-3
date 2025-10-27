@@ -94,4 +94,3 @@ class Usuario:
             role=row[5],
             activo=bool(row[6])
         )
-
