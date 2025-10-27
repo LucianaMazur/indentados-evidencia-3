@@ -1,10 +1,11 @@
 class Dispositivo:
     # Representa un dispositivo inteligente del hogar
     
-    def __init__(self, id, nombre, tipo):
-        self._id = id
-        self._nombre = nombre
-        self._tipo = tipo
+    def __init__(self, id=0, nombre='', tipo='', esencial=True):
+        self.id = id
+        self.nombre = nombre
+        self.tipo = tipo
+        self.esencial = esencial
     
     # Getters
     @property
@@ -35,6 +36,14 @@ class Dispositivo:
     @staticmethod
     def from_row(row):
         # Crear objeto desde tupla de base de datos
-        if row is None:
+        if not row:
             return None
-        return Dispositivo(id=row[0], nombre=row[1], tipo=row[2])
+        # Compatibilidad si la tabla aún no tiene el campo
+        if len(row) == 3:
+            return Dispositivo(id=row[0], nombre=row[1], tipo=row[2], esencial=True)
+        else:
+            return Dispositivo(id=row[0], nombre=row[1], tipo=row[2], esencial=bool(row[3]))
+
+    def __str__(self):
+        tipo = "Esencial" if self.esencial else "No esencial"
+        return f"[{self.id}] {self.nombre} - {self.tipo} ({tipo})"
