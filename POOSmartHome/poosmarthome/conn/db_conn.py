@@ -4,7 +4,7 @@ from mysql.connector import Error
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "", # <- Hay que poner la contraseña del MySQL
+    "password": "root", # <- Hay que poner la contraseña del MySQL
     "database": "poosmarthome"
 }
 
