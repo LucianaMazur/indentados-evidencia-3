@@ -1,3 +1,5 @@
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from poosmarthome.dominio.automatizacion import Automatizacion
 from poosmarthome.dominio.dispositivo import Dispositivo
 from poosmarthome.dao.automatizacion_dao import AutomatizacionDAO
@@ -9,7 +11,7 @@ def test_crear_automatizacion():
     auto_dao = AutomatizacionDAO()
     
     # Crear dispositivo
-    dispositivo = Dispositivo(id=0, nombre='Test Disp Auto', tipo='test')
+    dispositivo = Dispositivo(id=0, nombre='Test Disp Auto', tipo='test', esencial=True)
     disp = disp_dao.create(dispositivo)
     
     # Crear automatización
@@ -51,7 +53,7 @@ def test_cascade_delete():
     auto_dao = AutomatizacionDAO()
     
     # Crear dispositivo y automatización
-    dispositivo = Dispositivo(id=0, nombre='Test Cascade', tipo='test')
+    dispositivo = Dispositivo(id=0, nombre='Test Cascade', tipo='test', esencial=False)
     disp = disp_dao.create(dispositivo)
     
     automatizacion = Automatizacion(id=0, nombre='Auto Cascade',
