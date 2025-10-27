@@ -22,8 +22,11 @@ CREATE TABLE usuarios (
 CREATE TABLE dispositivos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    tipo VARCHAR(50) NOT NULL
+    tipo VARCHAR(50) NOT NULL,
+    esencial BOOLEAN NOT NULL DEFAULT TRUE
+    
 );
+
 
 -- TABLA: automatizaciones
 -- Almacena las automatizaciones configuradas
@@ -37,4 +40,12 @@ CREATE TABLE automatizaciones (
     FOREIGN KEY (id_dispositivo) REFERENCES dispositivos(id)
         ON DELETE CASCADE 
         ON UPDATE CASCADE
+);
+
+CREATE TABLE registro_actividad (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario VARCHAR(100),
+    accion VARCHAR(255) NOT NULL,
+    detalle TEXT
 );
